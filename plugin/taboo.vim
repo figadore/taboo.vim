@@ -358,5 +358,9 @@ augroup taboo
     au TabLeave,TabEnter * call s:refresh_tabline()
     au BufCreate,BufLeave,BufEnter,WinLeave,WinEnter  * if v:version<703 | call s:SyncTabName() | endif
     au VimEnter * set tabline=%!TabooTabline()
-    au VimEnter * if has('gui_running')|set guitablabel=%!TabooGuiLabel()|endif
+    " Only set guitablabel in GUI Vim, not Neovim/Neovide
+    if has('gui_running') && !has('nvim')
+      au VimEnter * set guitablabel=%!TabooGuiLabel()
+    endif
+
 augroup END
